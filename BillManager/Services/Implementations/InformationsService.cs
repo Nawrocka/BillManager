@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BillManager.Services
+namespace BillManager.Services.Implementations
 {
     public class InformationsService : IInformationsService
     {
@@ -123,7 +123,7 @@ namespace BillManager.Services
             };
         }
 
-        public InformationsDTO GetInformationsByUser(string email)
+        public InformationsDTO GetAllInformationsByUser(string email)
         {
             _logger.LogInformation("Executing GetInformationsByUser method");
 
