@@ -10,7 +10,7 @@ namespace BillManager.Services.Interfaces
     {
         ResponseDTO AddInformation(InformationDTO informationDTO);
         ResponseDTO EditInformation(InformationDTO informationDTO);
-        ResponseDTO DeleteInformation(string mail);
-        InformationsDTO GetAllByUser(string userId);
+        ResponseDTO DeleteInformation(string email);
+        InformationsDTO GetInformationsByUser(string email);
     }
 }

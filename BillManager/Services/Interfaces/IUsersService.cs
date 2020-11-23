@@ -10,6 +10,6 @@ namespace BillManager.Services.Interfaces
     {
         UsersDTO GetAllUsers();
         ResponseDTO EditUser(UserDTO userDTO);
-        ResponseAfterAutDTO GetIdAndRoleForUserById(string mail);
+        ResponseAfterAutDTO GetIdAndRoleForUserById(string email);
     }
 }

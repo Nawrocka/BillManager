@@ -16,7 +16,10 @@ using BillManager.Models;
 using Microsoft.OpenApi.Models;
 using AutoMapper;
 using BillManager.Extensions.Mapper;
-using BillManager.Models.ModelsDTO;
+using Microsoft.AspNetCore.Http;
+using BillManager.Services.Interfaces;
+using BillManager.Services.Implementations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BillManager
 {
@@ -33,15 +36,28 @@ namespace BillManager
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //services.AddDefaultIdentity<Identithttps://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/yUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //    .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.AddTransient<IBillsService, BillsService>();
+            services.AddTransient<IInformationsService, InformationsService>();
+            services.AddTransient<IUsersService, UsersService>();
+            services.AddLogging();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -50,6 +66,11 @@ namespace BillManager
                     Title = "Bill Manager"
                 });
             });
+
+            //var config = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+            //var mapper = new Mapper(config);
+            //services.AddAutoMapper();
+
             services.AddAutoMapper(typeof(MappingProfile));
         }
 

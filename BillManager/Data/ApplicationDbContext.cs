@@ -14,7 +14,7 @@ namespace BillManager.Data
             : base(options)
         { }
 
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<Information> Information { get; set; }
         public DbSet<Bill> Bill { get; set; }
 
