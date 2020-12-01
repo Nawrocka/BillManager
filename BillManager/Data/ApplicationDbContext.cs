@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using BillManager.Models;
 using BillManager.Models.ModelConfiguration;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,8 +12,7 @@ namespace BillManager.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        { }
+            : base(options)        { }
 
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<Information> Information { get; set; }

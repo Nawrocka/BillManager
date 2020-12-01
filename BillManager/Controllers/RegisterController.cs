@@ -88,18 +88,42 @@ namespace BillManager.Controllers
         [AllowAnonymous]
         public async Task<ResponseAfterAutDTO> Login([FromBody] UserDTO user)
         {
-            var result = await _signInManager.PasswordSignInAsync(user.Email, user.PasswordHash, isPersistent: false, lockoutOnFailure: true);
-
-            if (result.Succeeded)
+            var user1 = await _userManager.FindByNameAsync(user.UserName);
+            
+            if (user1 != null)
             {
-                _logger.LogInformation("User logged in.");
-                return _usersService.GetIdAndRoleForUserById(user.Email);
+                var result = await _signInManager.PasswordSignInAsync(user1, user.PasswordHash, isPersistent: false, lockoutOnFailure: false);
+
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("User logged in.");
+                    return _usersService.GetIdAndRoleForUserById(user.Email);
+                }
+                else
+                {
+                    _logger.LogInformation("User logged failed.");
+                    return new ResponseAfterAutDTO { Code = 400, Message = "Loggin failed", Status = "Failed" };
+                }
             }
             else
             {
                 _logger.LogInformation("User logged failed.");
                 return new ResponseAfterAutDTO { Code = 400, Message = "Loggin failed", Status = "Failed" };
             }
+
         }
+
+
+
+
+        //   [HttpGet]
+        //[AllowAnonymous]
+        //public async Task<ResponseAfterAutDTO> LogOut()
+        //{
+        //    await _signInManager.SignOutAsync();
+        //    _logger.LogInformation("User logged out.");
+        //    return new ResponseAfterAutDTO { Code = 200, Message = "LogOut", Status = "Success" };
+        //}
     }
 }
+
